@@ -1,0 +1,48 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Welcome to TechReads Blog{% endblock %}
+
+{% block content %}
+<header class="hero-section">
+    <div class="container">
+        <h1>Welcome to TechReads</h1>
+        <p>Your daily dose of tech insights, tutorials, and news.</p>
+        <a href="{% url 'blog:post_list' %}" class="btn btn-primary">Explore All Posts</a>
+    </div>
+</header>
+
+<section class="featured-posts">
+    <div class="container">
+        <h2>Recent Articles</h2>
+        <div class="post-grid">
+            {% if recent_posts %}
+                {% for post in recent_posts %}
+                <article class="post-card">
+                    {% if post.title_image %}
+                        <a href="{{ post.get_absolute_url }}">
+                            <img src="{{ post.title_image.url }}" alt="{{ post.title }}" class="post-card-image">
+                        </a>
+                    {% endif %}
+                    <div class="post-card-content">
+                        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                        <p class="date">Published on {{ post.publish|date:"F j, Y" }}</p>
+                        <p>{{ post.body|striptags|truncatewords:20 }}</p>
+                        <a href="{{ post.get_absolute_url }}" class="read-more">Read more &raquo;</a>
+                    </div>
+                </article>
+                {% endfor %}
+            {% else %}
+                <p>No recent posts to display yet. Check back soon!</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>Stay Updated</h2>
+        <p>Subscribe to our newsletter for the latest articles (Feature coming soon!).</p>
+        </div>
+</section>
+{% endblock %}

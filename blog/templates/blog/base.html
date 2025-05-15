@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Enhanced Django Blog{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'blog:landing_page' %}">TechReads</a>
+            <ul class="navbar-nav">
+                <li><a href="{% url 'blog:landing_page' %}">Home</a></li>
+                <li><a href="{% url 'blog:post_list' %}">Blog</a></li>
+                <li><a href="{% url 'blog:about_page' %}">About</a></li>
+                <li><a href="{% url 'blog:contact_page' %}">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {% now "Y" %} TechReads Blog. All rights reserved. | Powered by Django</p>
+        </div>
+    </footer>
+</body>
+</html>
+

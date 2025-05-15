@@ -1,0 +1,24 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}{{ post.title }} - TechReads{% endblock %}
+
+{% block content %}
+<div class="container page-content">
+    <article class="post-full">
+        <h2 class="post-full-title">{{ post.title }}</h2>
+        <p class="date post-full-meta">
+            Published on {{ post.publish|date:"F j, Y" }} by {{ post.author.first_name|default:post.author.username }}
+        </p>
+
+        {% if post.title_image %}
+            <img src="{{ post.title_image.url }}" alt="{{ post.title }}" class="post-full-image">
+        {% endif %}
+
+        <div class="post-full-body">
+            {{ post.body|safe }} </div>
+    </article>
+    <hr>
+    <p class="back-link"><a href="{% url 'blog:post_list' %}">&laquo; Back to all posts</a></p>
+</div>
+{% endblock %}

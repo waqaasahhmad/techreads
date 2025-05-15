@@ -1,0 +1,406 @@
+/* blog/static/blog/css/style.css */
+
+/* Basic Reset & Defaults */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    background-color: #f8f9fa; /* Lighter background */
+    color: #343a40; /* Darker text for better contrast */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-container {
+    flex: 1; /* Ensures footer stays at the bottom */
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Rounded images */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #ffffff;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #343a40;
+}
+.navbar-brand:hover {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+}
+
+.navbar-nav li {
+    margin-left: 25px;
+}
+
+.navbar-nav a {
+    color: #495057;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.navbar-nav a:hover, .navbar-nav a.active {
+    color: #007bff;
+    text-decoration: none;
+}
+
+
+/* Hero Section (Landing Page) */
+.hero-section {
+    background: linear-gradient(rgba(0, 123, 255, 0.7), rgba(0, 86, 179, 0.8)), url('https://placehold.co/1920x600/007bff/ffffff?text=Tech+Background') no-repeat center center/cover;
+    /* Replace placeholder with a real image if desired */
+    color: #ffffff;
+    padding: 80px 0;
+    text-align: center;
+}
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.hero-section p {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+.btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+.btn-primary {
+    background-color: #ffffff;
+    color: #007bff;
+    border: 2px solid transparent;
+}
+.btn-primary:hover {
+    background-color: #f0f0f0;
+    color: #0056b3;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+/* Featured Posts (Landing Page) */
+.featured-posts, .cta-section {
+    padding: 60px 0;
+}
+.featured-posts h2, .cta-section h2, .page-title {
+    text-align: center;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #343a40;
+}
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+.post-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+.post-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.post-card-content {
+    padding: 20px;
+    flex-grow: 1; /* Allows content to fill space, pushing read-more down */
+    display: flex;
+    flex-direction: column;
+}
+.post-card-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+.post-card-content h3 a {
+    color: #343a40;
+}
+.post-card-content .date {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+.post-card-content p {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    flex-grow: 1; /* Pushes read-more down */
+}
+.read-more {
+    font-weight: 600;
+    color: #007bff;
+    align-self: flex-start; /* Aligns to the start of flex container */
+}
+
+/* CTA Section */
+.cta-section {
+    background-color: #007bff;
+    color: #ffffff;
+    text-align: center;
+}
+.cta-section h2 {
+    color: #ffffff;
+}
+.cta-section p {
+    font-size: 1.1rem;
+}
+
+/* General Page Content (for list, detail, about, contact) */
+.page-content {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #fff;
+    margin-top: 30px; /* Space below navbar */
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* Post List Page */
+.post-list-container {
+    display: grid;
+    gap: 30px;
+}
+.post-list-item {
+    display: flex;
+    gap: 20px;
+    background-color: #f8f9fa; /* Slight background for items */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.post-list-item-image {
+    flex-shrink: 0;
+    width: 200px; /* Fixed width for image container */
+    height: 150px;
+}
+.post-list-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+.post-list-item-content {
+    flex-grow: 1;
+}
+.post-list-item-content h3 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+.post-list-item-content .date {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+/* Post Detail Page */
+.post-full-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #343a40;
+}
+.post-full-meta {
+    font-size: 0.95rem;
+    color: #6c757d;
+    margin-bottom: 25px;
+}
+.post-full-image {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+.post-full-body {
+    font-size: 1.1rem;
+    line-height: 1.75;
+}
+.post-full-body p {
+    margin-bottom: 1.5em;
+}
+.back-link {
+    margin-top: 30px;
+    font-weight: 600;
+}
+
+/* Static Pages (About, Contact) */
+.static-page-content {
+    font-size: 1.05rem;
+}
+.static-page-content h3 {
+    font-size: 1.5rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #007bff;
+}
+.static-page-content ul {
+    list-style-position: inside;
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+.static-page-content li {
+    margin-bottom: 8px;
+}
+
+/* Footer */
+footer {
+    background: #343a40;
+    color: #e9ecef;
+    padding: 30px 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+footer p {
+    margin: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar-nav {
+        margin-top: 15px;
+        width: 100%;
+        flex-direction: column;
+    }
+    .navbar-nav li {
+        margin-left: 0;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    .navbar-nav a {
+        display: block;
+        padding: 8px 0;
+    }
+
+    .hero-section h1 { font-size: 2.2rem; }
+    .hero-section p { font-size: 1.1rem; }
+    .featured-posts h2, .cta-section h2, .page-title { font-size: 1.8rem; }
+    
+    .post-list-item {
+        flex-direction: column;
+    }
+    .post-list-item-image {
+        width: 100%;
+        height: 200px; /* Adjust height for stacked layout */
+        margin-bottom: 15px;
+    }
+}
+
+/* blog/static/blog/css/style.css */
+
+/* ... (your existing styles) ... */
+
+/* Styles for content generated by Rich Text Editor */
+.post-full-body img {
+    max-width: 100%; /* Make images responsive */
+    height: auto;
+    margin: 15px 0; /* Add some space around images */
+    display: block; /* Can help with centering if margin auto is used */
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px; /* Consistent with other images */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.post-full-body blockquote {
+    border-left: 4px solid #007bff;
+    padding-left: 20px;
+    margin: 20px 0 20px 0px; /* Adjusted margin for blockquote */
+    font-style: italic;
+    color: #555;
+    background-color: #f8f9fa; /* Slight background for emphasis */
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.post-full-body ul,
+.post-full-body ol {
+    margin-left: 20px; /* Indent lists */
+    margin-bottom: 15px;
+}
+
+.post-full-body li {
+    margin-bottom: 8px;
+}
+
+.post-full-body h1,
+.post-full-body h2,
+.post-full-body h3,
+.post-full-body h4,
+.post-full-body h5,
+.post-full-body h6 {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+/* ... (rest of your styles) ... */
+
