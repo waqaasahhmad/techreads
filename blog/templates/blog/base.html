@@ -4,26 +4,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Enhanced Django Blog{% endblock %}</title>
+    <title>{% block title %}My Advanced Django Blog{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
 </head>
 <body>
     <nav class="navbar">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'blog:landing_page' %}">TechReads</a>
+        <div class="container nav-container"> <a class="navbar-brand" href="{% url 'blog:landing_page' %}">TechReads</a>
             <ul class="navbar-nav">
                 <li><a href="{% url 'blog:landing_page' %}">Home</a></li>
                 <li><a href="{% url 'blog:post_list' %}">Blog</a></li>
                 <li><a href="{% url 'blog:about_page' %}">About</a></li>
                 <li><a href="{% url 'blog:contact_page' %}">Contact</a></li>
             </ul>
+            <form class="search-form" method="get" action="{% url 'blog:search_view' %}">
+                <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}">
+                <button type="submit">Search</button>
+            </form>
         </div>
     </nav>
 
-    <div class="main-container">
-        {% block content %}
-        {% endblock %}
+    <div class="main-content-wrapper container"> <main class="main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+        <aside class="sidebar">
+            {% block sidebar %}
+            <div class="sidebar-widget">
+                <h4>Categories</h4>
+                <ul>
+                    {% for cat in categories %}
+                    <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a></li>
+                    {% empty %}
+                    <li>No categories yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="sidebar-widget">
+                <h4>Tags</h4>
+                <div class="tag-cloud">
+                    {% for tg in all_tags %}
+                    <a href="{% url 'blog:post_list_by_tag' tg.slug %}" class="tag-item">{{ tg.name }}</a>
+                    {% empty %}
+                    <p>No tags yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="sidebar-widget">
+                <h4>Archives</h4>
+                <ul>
+                    <li><a href="{% url 'blog:post_month_archive' year=2024 month=5 %}">May 2024</a></li>
+                    <li><a href="{% url 'blog:post_month_archive' year=2024 month=4 %}">April 2024</a></li>
+                    </ul>
+            </div>
+            {% endblock sidebar %}
+        </aside>
     </div>
 
     <footer>
@@ -33,4 +68,3 @@
     </footer>
 </body>
 </html>
-

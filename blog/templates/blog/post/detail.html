@@ -4,21 +4,61 @@
 {% block title %}{{ post.title }} - TechReads{% endblock %}
 
 {% block content %}
-<div class="container page-content">
-    <article class="post-full">
-        <h2 class="post-full-title">{{ post.title }}</h2>
+<article class="post-full">
+    <h2 class="post-full-title">{{ post.title }}</h2>
+
+    <div class="post-meta-container">
         <p class="date post-full-meta">
             Published on {{ post.publish|date:"F j, Y" }} by {{ post.author.first_name|default:post.author.username }}
         </p>
-
-        {% if post.title_image %}
-            <img src="{{ post.title_image.url }}" alt="{{ post.title }}" class="post-full-image">
+        {% if post.category %}
+            <p class="category-link post-full-meta">
+                In Category: <a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a>
+            </p>
         {% endif %}
+    </div>
 
-        <div class="post-full-body">
-            {{ post.body|safe }} </div>
-    </article>
-    <hr>
-    <p class="back-link"><a href="{% url 'blog:post_list' %}">&laquo; Back to all posts</a></p>
-</div>
+    {% if post.title_image %}
+        <img src="{{ post.title_image.url }}" alt="{{ post.title }}" class="post-full-image">
+    {% endif %}
+
+    <div class="post-full-body">
+        {{ post.body|safe }}
+    </div>
+
+    <div class="post-tags-container">
+        <strong>Tags:</strong>
+        {% for tag in post.tags.all %}
+            <a href="{% url 'blog:post_list_by_tag' tag.slug %}" class="tag-link">{{ tag.name }}</a>
+        {% empty %}
+            <span>No tags for this post.</span>
+        {% endfor %}
+    </div>
+</article>
+
+{% if similar_posts %}
+<section class="related-posts">
+    <h3>Related Posts</h3>
+    <div class="post-grid">
+        {% for rel_post in similar_posts %}
+        <article class="post-card">
+            {% if rel_post.title_image %}
+            <a href="{{ rel_post.get_absolute_url }}">
+                <img src="{{ rel_post.title_image.url }}" alt="{{ rel_post.title }}" class="post-card-image">
+            </a>
+            {% endif %}
+            <div class="post-card-content">
+                <h4><a href="{{ rel_post.get_absolute_url }}">{{ rel_post.title }}</a></h4>
+                <p class="date">Published on {{ rel_post.publish|date:"F j, Y" }}</p>
+                <p>{{ rel_post.body|striptags|truncatewords:15 }}</p>
+                <a href="{{ rel_post.get_absolute_url }}" class="read-more">Read more &raquo;</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<hr class="post-divider">
+<p class="back-link"><a href="{% url 'blog:post_list' %}">&laquo; Back to all posts</a></p>
 {% endblock %}

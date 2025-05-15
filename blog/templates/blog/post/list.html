@@ -1,34 +1,64 @@
+
 {% extends "blog/base.html" %}
 {% load static %}
 
-{% block title %}All Blog Posts - TechReads{% endblock %}
+{% block title %}{{ page_title }} - TechReads{% endblock %}
 
 {% block content %}
-<div class="container page-content">
-    <h2 class="page-title">All Blog Posts</h2>
-    <div class="post-list-container">
-        {% if posts %}
-            {% for post in posts %}
-            <article class="post-list-item">
-                {% if post.title_image %}
-                <div class="post-list-item-image">
-                    <a href="{{ post.get_absolute_url }}">
-                        <img src="{{ post.title_image.url }}" alt="{{ post.title }}">
-                    </a>
-                </div>
-                {% endif %}
-                <div class="post-list-item-content">
-                    <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-                    <p class="date">
-                        Published on {{ post.publish|date:"F j, Y" }} by {{ post.author.first_name|default:post.author.username }}
-                    </p>
-                    <p>{{ post.body|striptags|truncatewords:35 }}</p> <a href="{{ post.get_absolute_url }}" class="read-more">Continue reading &raquo;</a>
-                </div>
-            </article>
-            {% endfor %}
-        {% else %}
-            <p>No posts have been published yet.</p>
-        {% endif %}
-    </div>
+<div class="page-header">
+    <h2 class="page-title">{{ page_title }}</h2>
+    {% if query and not posts %}
+        <p>No results found for "{{ query }}". Try a different search term.</p>
+    {% elif not posts and not query %}
+        <p>No posts found in this section.</p>
+    {% endif %}
 </div>
+
+<div class="post-list-container">
+    {% for post_item in posts %} <article class="post-list-item">
+        {% if post_item.title_image %}
+        <div class="post-list-item-image">
+            <a href="{{ post_item.get_absolute_url }}">
+                <img src="{{ post_item.title_image.url }}" alt="{{ post_item.title }}">
+            </a>
+        </div>
+        {% endif %}
+        <div class="post-list-item-content">
+            <h3><a href="{{ post_item.get_absolute_url }}">{{ post_item.title }}</a></h3>
+            {% if post_item.category %}
+                <p class="category-link">Category: <a href="{{ post_item.category.get_absolute_url }}">{{ post_item.category.name }}</a></p>
+            {% endif %}
+            <p class="date">
+                Published on {{ post_item.publish|date:"F j, Y" }} by {{ post_item.author.first_name|default:post_item.author.username }}
+            </p>
+            <div class="tags">
+                {% for tag_item in post_item.tags.all %} <a href="{% url 'blog:post_list_by_tag' tag_item.slug %}" class="tag-link">{{ tag_item.name }}</a>
+                {% endfor %}
+            </div>
+            <p>{{ post_item.body|striptags|truncatewords:35 }}</p>
+            <a href="{{ post_item.get_absolute_url }}" class="read-more">Continue reading &raquo;</a>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+
+{% if posts.has_other_pages %}
+<div class="pagination">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a href="?page=1{% if query %}&q={{ query }}{% elif category %}&category={{ category.slug }}{% elif tag %}&tag={{ tag.slug }}{% endif %}">&laquo; first</a>
+            <a href="?page={{ posts.previous_page_number }}{% if query %}&q={{ query }}{% elif category %}&category={{ category.slug }}{% elif tag %}&tag={{ tag.slug }}{% endif %}">previous</a>
+        {% endif %}
+
+        <span class="current-page">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}{% if query %}&q={{ query }}{% elif category %}&category={{ category.slug }}{% elif tag %}&tag={{ tag.slug }}{% endif %}">next</a>
+            <a href="?page={{ posts.paginator.num_pages }}{% if query %}&q={{ query }}{% elif category %}&category={{ category.slug }}{% elif tag %}&tag={{ tag.slug }}{% endif %}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
 {% endblock %}

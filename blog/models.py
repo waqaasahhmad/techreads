@@ -4,7 +4,21 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
-from ckeditor_uploader.fields import RichTextUploadingField # Import this
+from ckeditor_uploader.fields import RichTextUploadingField
+from taggit.managers import TaggableManager # Import TaggableManager
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name_plural = "categories" # Correct pluralization in admin
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('blog:post_list_by_category', args=[self.slug])
 
 class Post(models.Model):
     STATUS_CHOICES = (
@@ -15,13 +29,14 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
-    # body = models.TextField() # Old field
-    body = RichTextUploadingField() # New field using CKEditor with upload support
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts') # New Category field
+    body = RichTextUploadingField()
     title_image = models.ImageField(upload_to='post_images/', blank=True, null=True)
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
+    tags = TaggableManager(blank=True) # New Tags field using django-taggit
 
     class Meta:
         ordering = ('-publish',)

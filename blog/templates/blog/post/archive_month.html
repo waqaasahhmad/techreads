@@ -1,0 +1,61 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Posts from {{ month|date:"F Y" }} - TechReads{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2 class="page-title">Posts from {{ month|date:"F Y" }}</h2>
+    {% if not posts %}
+        <p>No posts found for this month.</p>
+    {% endif %}
+</div>
+
+<div class="post-list-container">
+    {% for post_item in posts %}
+    <article class="post-list-item">
+        {% if post_item.title_image %}
+        <div class="post-list-item-image">
+            <a href="{{ post_item.get_absolute_url }}">
+                <img src="{{ post_item.title_image.url }}" alt="{{ post_item.title }}">
+            </a>
+        </div>
+        {% endif %}
+        <div class="post-list-item-content">
+            <h3><a href="{{ post_item.get_absolute_url }}">{{ post_item.title }}</a></h3>
+            {% if post_item.category %}
+                <p class="category-link">Category: <a href="{{ post_item.category.get_absolute_url }}">{{ post_item.category.name }}</a></p>
+            {% endif %}
+            <p class="date">
+                Published on {{ post_item.publish|date:"F j, Y" }}
+            </p>
+            <div class="tags">
+                {% for tag_item in post_item.tags.all %}
+                    <a href="{% url 'blog:post_list_by_tag' tag_item.slug %}" class="tag-link">{{ tag_item.name }}</a>
+                {% endfor %}
+            </div>
+            <p>{{ post_item.body|striptags|truncatewords:35 }}</p>
+            <a href="{{ post_item.get_absolute_url }}" class="read-more">Continue reading &raquo;</a>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+
+{% comment %} Pagination for archives can be added similarly if needed {% endcomment %}
+{% if page_obj.has_other_pages %} {# Note: MonthArchiveView provides page_obj #}
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current-page">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
+{% endblock %}

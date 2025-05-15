@@ -404,3 +404,217 @@ footer p {
 }
 /* ... (rest of your styles) ... */
 
+.nav-container { /* Ensure this class is on the div inside .navbar containing brand, nav, search */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Make sure it takes full width of .container */
+}
+.search-form {
+    display: flex;
+    align-items: center;
+}
+.search-form input[type="text"] {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px 0 0 4px;
+    min-width: 200px;
+}
+.search-form button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.search-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Main Content and Sidebar Layout */
+.main-content-wrapper {
+    display: flex;
+    gap: 30px; /* Space between main content and sidebar */
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.main-content {
+    flex: 3; /* Main content takes more space */
+    background-color: #fff; /* Give main content its own background if distinct from page-content */
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.sidebar {
+    flex: 1; /* Sidebar takes less space */
+}
+.sidebar-widget {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.sidebar-widget h4 {
+    font-size: 1.3rem;
+    color: #343a40;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef;
+}
+.sidebar-widget ul {
+    list-style: none;
+    padding-left: 0;
+}
+.sidebar-widget ul li {
+    margin-bottom: 8px;
+}
+.sidebar-widget ul li a {
+    color: #007bff;
+    text-decoration: none;
+}
+.sidebar-widget ul li a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Tag Cloud in Sidebar */
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.tag-item, .tag-link { /* .tag-link for tags under posts */
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.tag-item:hover, .tag-link:hover {
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Tags under post title/content */
+.post-list-item-content .tags, .post-tags-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.post-tags-container strong {
+    margin-right: 5px;
+}
+
+/* Category Link Styling */
+.category-link a {
+    font-weight: 500;
+    color: #28a745; /* Green for category */
+}
+.category-link a:hover {
+    color: #1e7e34;
+}
+.post-meta-container {
+    margin-bottom: 20px;
+}
+.post-meta-container .category-link {
+    display: inline-block; /* Or block if you want it on a new line */
+    margin-left: 15px; /* Space from date */
+}
+
+
+/* Pagination */
+.pagination {
+    margin-top: 40px;
+    text-align: center;
+}
+.pagination .step-links a, .pagination .current-page {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #007bff;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.pagination .step-links a:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+.pagination .current-page {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+/* Related Posts Section */
+.related-posts {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #e9ecef;
+}
+.related-posts h3 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #343a40;
+}
+/* Uses .post-grid and .post-card styles from landing page for consistency */
+
+.post-divider { /* For after related posts or before back link */
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+/* Page Header for list views */
+.page-header {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+
+/* Responsive adjustments for sidebar */
+@media (max-width: 992px) { /* Adjust breakpoint as needed */
+    .main-content-wrapper {
+        flex-direction: column;
+    }
+    .main-content {
+        flex: auto; /* Reset flex basis */
+    }
+    .sidebar {
+        flex: auto; /* Reset flex basis */
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-form {
+        width: 100%; /* Full width on small screens */
+        margin-top: 10px;
+    }
+    .search-form input[type="text"] {
+        min-width: 0; /* Allow it to shrink */
+        flex-grow: 1; /* Take available space */
+    }
+    /* Adjust nav-container if search form wraps */
+    .navbar .nav-container {
+        flex-wrap: wrap;
+    }
+}
+
+/* ... (rest of your styles) ... */
