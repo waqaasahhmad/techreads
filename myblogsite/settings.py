@@ -149,3 +149,26 @@ CKEDITOR_ALLOW_NONIMAGE_FILES = False # Disallow uploading non-image files throu
 #         'width': '100%',
 #     }
 # }
+
+# myblogsite/myblogsite/settings.py
+# ... (other settings) ...
+
+# Email Configuration (for development - prints to console)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# For production, you'd use something like:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.example.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@example.com'
+# EMAIL_HOST_PASSWORD = 'your-email-password'
+# DEFAULT_FROM_EMAIL = 'webmaster@example.com' # Or your host user
+# SERVER_EMAIL = 'root@example.com' # For error reports
+# ADMINS = [('Your Name', 'your-admin-email@example.com')] # For error reports
+
+# myblogsite/myblogsite/settings.py
+# ... (at the end of the file) ...
+LOGIN_REDIRECT_URL = '/' # Or 'blog:landing_page' or a profile page
+LOGOUT_REDIRECT_URL = '/' # Or 'blog:landing_page'
+LOGIN_URL = 'blog:login'

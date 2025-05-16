@@ -12,20 +12,30 @@
         <h3>Get in Touch</h3>
         <p>You can contact us through the following channels:</p>
         <ul>
-            <li><strong>Email:</strong> <a href="mailto:contact@techreads.example.com">contact@techreads.example.com</a> (Please replace with your actual email)</li>
-            <li><strong>Social Media (Placeholder):</strong>
-                <ul>
-                    <li>Twitter: @TechReadsBlog</li>
-                    <li>Facebook: /TechReadsOfficial</li>
-                    <li>LinkedIn: TechReads</li>
-                </ul>
-            </li>
+            <li><strong>Email:</strong> <a href="mailto:contact@techreads.example.com">contact@techreads.example.com</a></li>
+            {# ... other contact info ... #}
         </ul>
 
-        <h3>Collaboration & Guest Posts</h3>
-        <p>If you are interested in collaborating or submitting a guest post, please email us with your proposal and a brief introduction.</p>
+        <h3>Send Us a Message</h3>
+        {% if form_submitted %}
+            <div class="alert alert-success">
+                Thank you for your message! We'll get back to you shortly.
+            </div>
+        {% endif %}
 
-        <p><em>Please note: The contact form above is a placeholder and not functional yet. For now, please use email.</em></p>
+        <form action="." method="post" class="contact-page-form"> {# Added class for specific styling #}
+            {% csrf_token %}
+            {{ form.as_p }} {# Renders form fields as paragraphs #}
+            {# Or render fields manually for more control:
+            <div class="form-group">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+                {% if form.name.errors %}<div class="errors">{{ form.name.errors }}</div>{% endif %}
+            </div>
+            ... for other fields ...
+            #}
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
     </div>
 </div>
 {% endblock %}

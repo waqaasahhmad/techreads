@@ -1,8 +1,10 @@
 # blog/admin.py
-
+from .models import Post, Category, Comment # Add Comment
 from django.contrib import admin
 from .models import Post, Category # Import Category
 from django.utils.html import format_html
+from .models import Subscriber # Ensure Subscriber is imported
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -30,3 +32,23 @@ class PostAdmin(admin.ModelAdmin):
     def display_tags(self, obj):
         return ", ".join([tag.name for tag in obj.tags.all()])
     display_tags.short_description = 'Tags'
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'user', 'body', 'post', 'created_on', 'active')
+    list_filter = ('active', 'created_on')
+    search_fields = ('name', 'user__username', 'email', 'body')
+    actions = ['approve_comments']
+
+    def approve_comments(self, request, queryset):
+        queryset.update(active=True)
+    approve_comments.short_description = "Approve selected comments"
+
+# blog/admin.py
+# ... (other admin classes) ...
+
+@admin.register(Subscriber)
+class SubscriberAdmin(admin.ModelAdmin):
+    list_display = ('email', 'subscribed_on')
+    search_fields = ('email',)
+    readonly_fields = ('subscribed_on',)

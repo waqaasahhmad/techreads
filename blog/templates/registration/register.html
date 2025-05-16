@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Register - TechReads{% endblock %}
+
+{% block content %}
+<div class="container page-content auth-form-container">
+    <h2 class="page-title">Create an Account</h2>
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    <p class="auth-form-link">Already have an account? <a href="{% url 'blog:login' %}">Login here</a>.</p> {# Corrected: Added 'blog:' namespace #}
+</div>
+{% endblock %}

@@ -50,3 +50,25 @@ class Post(models.Model):
                              self.publish.month,
                              self.publish.day,
                              self.slug])
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments', null=True, blank=True) # Allow anonymous comments if user is None
+    name = models.CharField(max_length=80, blank=True) # For anonymous users to provide a name
+    email = models.EmailField(blank=True) # For anonymous users, optional
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True) # For moderation: only active comments are shown
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return f'Comment by {self.name or self.user.username} on {self.post}'
+
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+    subscribed_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email

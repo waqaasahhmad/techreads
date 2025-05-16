@@ -23,7 +23,15 @@
     {% endif %}
 
     <div class="post-full-body">
-        {{ post.body|safe }}
+        {{ post.body|safe }} {# Assuming body contains HTML from CKEditor #}
+    </div>
+
+    <div class="social-share-buttons">
+        <h4>Share this post:</h4>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" rel="noopener noreferrer" class="social-share-btn facebook-btn">Facebook</a>
+        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title|urlencode }}" target="_blank" rel="noopener noreferrer" class="social-share-btn twitter-btn">Twitter</a>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title|urlencode }}&summary={{ post.body|striptags|truncatewords:20|urlencode }}" target="_blank" rel="noopener noreferrer" class="social-share-btn linkedin-btn">LinkedIn</a>
+        <a href="mailto:?subject={{ post.title|urlencode }}&body=Check out this post: {{ request.build_absolute_uri }}" class="social-share-btn email-btn">Email</a>
     </div>
 
     <div class="post-tags-container">
@@ -36,10 +44,37 @@
     </div>
 </article>
 
+<hr class="post-divider">
+
+<section id="comments-section" class="comments-section"> {# Ensure id matches redirect anchor for comment submission #}
+    <h3>{{ comments.count }} Comment{{ comments.count|pluralize }}</h3>
+    
+    {% if not comments and not post.comments.exists %} {# Check if there are truly no comments at all #}
+        <p>Be the first to comment on this post!</p>
+    {% endif %}
+
+    {% for comment in comments %} {# comments are pre-filtered for active=True in the view #}
+    <div class="comment">
+        <p class="comment-author">
+            <strong>{{ comment.name|default:comment.user.username }}</strong>
+            <span class="comment-date">on {{ comment.created_on|date:"F j, Y, P" }}</span>
+        </p>
+        <p>{{ comment.body|linebreaks }}</p>
+    </div>
+    {% endfor %}
+
+    <h4>Leave a Comment</h4>
+    <form method="post" class="comment-form" action="{{ post.get_absolute_url }}#comments-section"> {# Action points to the current post's URL and jumps to comments #}
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+    </form>
+</section>
+
 {% if similar_posts %}
 <section class="related-posts">
     <h3>Related Posts</h3>
-    <div class="post-grid">
+    <div class="post-grid"> {# Assuming .post-grid and .post-card styles are defined globally or for landing page #}
         {% for rel_post in similar_posts %}
         <article class="post-card">
             {% if rel_post.title_image %}
@@ -50,7 +85,7 @@
             <div class="post-card-content">
                 <h4><a href="{{ rel_post.get_absolute_url }}">{{ rel_post.title }}</a></h4>
                 <p class="date">Published on {{ rel_post.publish|date:"F j, Y" }}</p>
-                <p>{{ rel_post.body|striptags|truncatewords:15 }}</p>
+                <p>{{ rel_post.body|striptags|truncatewords:15 }}</p> {# Using striptags for snippet safety #}
                 <a href="{{ rel_post.get_absolute_url }}" class="read-more">Read more &raquo;</a>
             </div>
         </article>
@@ -61,4 +96,5 @@
 
 <hr class="post-divider">
 <p class="back-link"><a href="{% url 'blog:post_list' %}">&laquo; Back to all posts</a></p>
+
 {% endblock %}

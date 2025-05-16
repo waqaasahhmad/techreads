@@ -618,3 +618,218 @@ footer p {
 }
 
 /* ... (rest of your styles) ... */
+.comments-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #e9ecef;
+}
+.comments-section h3, .comments-section h4 {
+    color: #343a40;
+    margin-bottom: 20px;
+}
+.comment {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #e9ecef;
+}
+.comment-author {
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+.comment-author strong {
+    color: #007bff;
+}
+.comment-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-left: 10px;
+}
+.comment p {
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+.new-comment-highlight {
+    background-color: #d1ecf1; /* Light blue for new comment info */
+    border-color: #bee5eb;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+/* Comment Form */
+.comment-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+.comment-form p { /* For {{ form.as_p }} styling */
+    margin-bottom: 15px;
+}
+.comment-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+}
+.comment-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+.comment-form button.btn-primary { /* Re-style if needed, or use existing .btn */
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.comment-form button.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Contact Page Form */
+.contact-page-form p { /* For {{ form.as_p }} styling */
+    margin-bottom: 15px;
+}
+.contact-page-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.contact-page-form input[type="text"],
+.contact-page-form input[type="email"],
+.contact-page-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+}
+.contact-page-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+.contact-page-form .alert-success { /* Basic success message styling */
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+/* blog/static/blog/css/style.css */
+/* ... (previous styles) ... */
+
+/* Auth Forms (Login, Register) */
+.auth-form-container {
+    max-width: 500px; /* Limit width of auth forms */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    background-color: #f8f9fa; /* Light background for the form area */
+    border-radius: 8px;
+}
+.auth-form-container .page-title {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.auth-form p { /* For {{ form.as_p }} styling */
+    margin-bottom: 15px;
+}
+.auth-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+}
+.auth-form ul.errorlist { /* Styling for form errors */
+    list-style: none;
+    padding: 0;
+    color: #dc3545; /* Bootstrap danger color */
+    font-size: 0.9rem;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+.auth-form .helptext {
+    font-size: 0.85rem;
+    color: #6c757d;
+    display: block;
+    margin-top: 5px;
+}
+.auth-form button.btn-primary {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+.auth-form-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.95rem;
+}
+.alert-danger, .alert-warning, .alert-info { /* Basic alert styling */
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+.alert-danger { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+.alert-warning { color: #856404; background-color: #fff3cd; border-color: #ffeeba; }
+.alert-info { color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; }
+
+/* Social Share Buttons */
+.social-share-buttons {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+.social-share-buttons h4 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #343a40;
+}
+.social-share-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    margin-right: 10px;
+    margin-bottom: 10px; /* For wrapping on small screens */
+    border-radius: 4px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: opacity 0.2s ease;
+}
+.social-share-btn:hover {
+    opacity: 0.85;
+    color: #fff;
+    text-decoration: none;
+}
+.facebook-btn { background-color: #3b5998; }
+.twitter-btn { background-color: #1da1f2; }
+.linkedin-btn { background-color: #0077b5; }
+.email-btn { background-color: #777; }

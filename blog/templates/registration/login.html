@@ -1,0 +1,30 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Login - TechReads{% endblock %}
+
+{% block content %}
+<div class="container page-content auth-form-container">
+    <h2 class="page-title">Login to Your Account</h2>
+    {% if form.errors %}
+        <p class="alert alert-danger">Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p class="alert alert-warning">Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+        {% else %}
+            <p class="alert alert-info">Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <form method="post" action="{% url 'blog:login' %}" class="auth-form"> {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Login</button>
+        <input type="hidden" name="next" value="{{ next|default:'/' }}"> {# Redirect to 'next' page or home #}
+    </form>
+    <p class="auth-form-link">Don't have an account? <a href="{% url 'blog:register' %}">Register here</a>.</p>
+    {# Add password reset link later if needed: <p><a href="{% url 'password_reset' %}">Lost password?</a></p> #}
+</div>
+{% endblock %}

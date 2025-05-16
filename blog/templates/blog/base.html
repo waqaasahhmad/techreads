@@ -4,27 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Advanced Django Blog{% endblock %}</title>
+    <title>{% block title %}TechReads Blog{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
 </head>
 <body>
     <nav class="navbar">
-        <div class="container nav-container"> <a class="navbar-brand" href="{% url 'blog:landing_page' %}">TechReads</a>
+        <div class="container nav-container">
+            <a class="navbar-brand" href="{% url 'blog:landing_page' %}">TechReads</a>
             <ul class="navbar-nav">
                 <li><a href="{% url 'blog:landing_page' %}">Home</a></li>
                 <li><a href="{% url 'blog:post_list' %}">Blog</a></li>
                 <li><a href="{% url 'blog:about_page' %}">About</a></li>
                 <li><a href="{% url 'blog:contact_page' %}">Contact</a></li>
+                {% if user.is_authenticated %}
+                    {# Add link to user profile page later #}
+                    {# <li><a href="{% url 'blog:profile' %}">Profile</a></li> #}
+                    <li><span class="nav-username">Hi, {{ user.username }}!</span></li>
+                    <li><a href="{% url 'blog:logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'blog:login' %}">Login</a></li>
+                    <li><a href="{% url 'blog:register' %}">Register</a></li>
+                {% endif %}
             </ul>
             <form class="search-form" method="get" action="{% url 'blog:search_view' %}">
                 <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}">
-                <button type="submit">Search</button>
+                <button type="submit" aria-label="Search"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg></button>
             </form>
         </div>
     </nav>
 
-    <div class="main-content-wrapper container"> <main class="main-content">
+    <div class="main-content-wrapper container">
+        <main class="main-content">
             {% block content %}
             {% endblock %}
         </main>
@@ -34,7 +45,7 @@
                 <h4>Categories</h4>
                 <ul>
                     {% for cat in categories %}
-                    <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a></li>
+                    <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a> ({{ cat.posts.count }})</li>
                     {% empty %}
                     <li>No categories yet.</li>
                     {% endfor %}
@@ -53,9 +64,30 @@
             <div class="sidebar-widget">
                 <h4>Archives</h4>
                 <ul>
-                    <li><a href="{% url 'blog:post_month_archive' year=2024 month=5 %}">May 2024</a></li>
-                    <li><a href="{% url 'blog:post_month_archive' year=2024 month=4 %}">April 2024</a></li>
-                    </ul>
+                    {% comment %}
+                    {% get_monthly_archives as monthly_archives %} {# Placeholder for a custom template tag #}
+                    {% for archive_date in monthly_archives %}
+                        <li><a href="{% url 'blog:post_month_archive' year=archive_date.year month=archive_date.month %}">{{ archive_date|date:"F Y" }}</a></li>
+                    {% endfor %}
+                    {% endcomment %}
+                    <li><a href="{% url 'blog:post_month_archive' year=2024 month=5 %}">May 2024</a> (Example)</li>
+                    <li><a href="{% url 'blog:post_month_archive' year=2024 month=4 %}">April 2024</a> (Example)</li>
+                </ul>
+            </div>
+            <div class="sidebar-widget" id="newsletter-form-anchor">
+                <h4>Newsletter</h4>
+                <form action="{% url 'blog:newsletter_subscribe' %}" method="post" class="newsletter-form">
+                    {% csrf_token %}
+                    <input type="email" name="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+                {% if request.GET.subscribed == 'true' %}
+                    <p class="newsletter-feedback success">Thanks for subscribing!</p>
+                {% elif request.GET.subscribed == 'false' and request.GET.error == 'exists' %}
+                    <p class="newsletter-feedback error">This email is already subscribed.</p>
+                {% elif request.GET.subscribed == 'false' and request.GET.error == 'invalid' %}
+                    <p class="newsletter-feedback error">Invalid email. Please try again.</p>
+                {% endif %}
             </div>
             {% endblock sidebar %}
         </aside>
